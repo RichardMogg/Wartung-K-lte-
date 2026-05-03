@@ -2575,13 +2575,7 @@
         html += '<div class="sec">Bemerkungen</div><div class="box">' + escapeHtml(data.bemerkungen).replace(/\n/g, '<br>') + '</div>';
       }
 
-      if (data.fotos && data.fotos.length) {
-        html += '<div class="sec">Fotos</div><div class="box">' +
-          data.fotos.map(function (foto, index) {
-            return escapeHtml(String(index + 1) + '. ' + foto.name + ' (' + formatBytes(foto.size || 0) + ')');
-          }).join('<br>') +
-          '</div>';
-      }
+
 
       var cls = data.gesamtzustand === 'keine Mängel'
         ? 'ok'
