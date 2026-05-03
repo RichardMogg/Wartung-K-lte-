@@ -2054,30 +2054,39 @@
       location.reload();
     }
 
-    async function updatePhotoListFromInput() {
-      var files = document.getElementById('fotoInput').files;
+async function updatePhotoListFromInput() {
+  var input = document.getElementById('fotoInput');
+  var files = input.files;
 
-      if (!files.length) {
-        updatePhotoListFromCurrentPhotos();
-        updateSummaries();
-        return;
-      }
+  if (!files.length) {
+    updatePhotoListFromCurrentPhotos();
+    updateSummaries();
+    return;
+  }
 
-      currentPhotos = [];
+  var addedCount = 0;
 
-      for (var i = 0; i < files.length; i++) {
-        currentPhotos.push({
-          name: files[i].name,
-          type: files[i].type || 'application/octet-stream',
-          data: new Uint8Array(await files[i].arrayBuffer())
-        });
-      }
+  for (var i = 0; i < files.length; i++) {
+    currentPhotos.push({
+      name: files[i].name,
+      type: files[i].type || 'application/octet-stream',
+      data: new Uint8Array(await files[i].arrayBuffer())
+    });
 
-      document.getElementById('fotoInput').value = '';
-      updatePhotoListFromCurrentPhotos();
-      updateSummaries();
-      saveDraft(false);
-    }
+    addedCount++;
+  }
+
+  input.value = '';
+
+  updatePhotoListFromCurrentPhotos();
+  updateSummaries();
+  saveDraft(false);
+
+  setStatus(
+    addedCount + ' Foto(s) hinzugefügt. Insgesamt geladen: ' + currentPhotos.length,
+    'ok'
+  );
+}
 
     function updatePhotoListFromCurrentPhotos() {
       var box = document.getElementById('photoList');
